@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, OneToOne } from "typeorm"
-import { User } from "../users/entities/user.entity"
+import { User } from "../entities/user.entity"
 import { Tag } from "./tags.entity"
 
 @Entity("events")
@@ -21,14 +21,16 @@ export class Event {
     @Column({
         type: "enum",
         enum: ["competition", "challenge"],
-        default: "challenge"
+        default: "challenge",
+        nullable: true
     })
     type_events: number
 
     @Column({
         type: "enum",
         enum: ["training", "unique"],
-        default: "training"
+        default: "training",
+        nullable: true
     })
     type_project: number
 
@@ -47,7 +49,7 @@ export class Event {
     @JoinColumn([
         { name: "tags" ,}
     ])
-    @ManyToOne(() => Tag, (tag) =>tag.title)
+    @ManyToOne(() => Tag, (tag) =>tag.id)
     tags: Tag[]
 
     @Column()

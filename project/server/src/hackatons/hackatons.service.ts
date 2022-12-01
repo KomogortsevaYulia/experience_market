@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateHackatonDto } from './dto/create-hackaton.dto';
 import { UpdateHackatonDto } from './dto/update-hackaton.dto';
 
 @Injectable()
 export class HackatonsService {
+  constructor(
+    @InjectRepository(Event)
+    private hackatonRepository: Repository<Event>,
+  ) {}
+ 
   create(createHackatonDto: CreateHackatonDto) {
     return 'This action adds a new hackaton';
   }

@@ -12,12 +12,18 @@ export const useProjectsStore = defineStore("globalPageStore", () => {
         let params = {
         }
         loadingProjects.value = true;
-        let r = await axios.get('/api/projects', {
+        let result = await axios.get('/api/projects', {
             params
         })
         loadingProjects.value = false;
-        projectsItems.value = r.data;
+        projectsItems.value = result.data;
     }
+
+    const refetchAll = _.debounce(async () => {
+        await Promise.all([
+            fetchProjects(),
+        ])
+    }, 500)
 
     return {
         fetchProjects
