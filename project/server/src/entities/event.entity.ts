@@ -16,7 +16,7 @@ export class Event {
         enum: ["event", "project", "hackaton"],
         default: "event"
     })
-    type: number
+    type: string
 
     @Column({
         type: "enum",
@@ -24,7 +24,7 @@ export class Event {
         default: "challenge",
         nullable: true
     })
-    type_events: number
+    type_events: string
 
     @Column({
         type: "enum",
@@ -32,7 +32,7 @@ export class Event {
         default: "training",
         nullable: true
     })
-    type_project: number
+    type_project: string
 
     @Column("simple-array")
     images: string[]

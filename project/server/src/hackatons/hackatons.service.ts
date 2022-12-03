@@ -8,15 +8,15 @@ import { UpdateHackatonDto } from './dto/update-hackaton.dto';
 export class HackatonsService {
   constructor(
     @InjectRepository(Event)
-    private hackatonRepository: Repository<Event>,
-  ) {}
- 
+    private readonly hackatonRepository: Repository<Event>,
+  ) { }
+
   create(createHackatonDto: CreateHackatonDto) {
     return 'This action adds a new hackaton';
   }
 
-  findAll() {
-    return `This action returns all hackatons`;
+  async findAll(): Promise<Event[]> {
+    return this.hackatonRepository.createQueryBuilder("events").where("events.type = :type", { type: "hackaton" }).getMany();
   }
 
   findOne(id: number) {

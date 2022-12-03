@@ -7,18 +7,18 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 
 @Injectable()
 export class ProjectsService {
-  
+
   constructor(
     @InjectRepository(Event)  // user //,
     private readonly projectsRepository: Repository<Event>,
   ) { }
-  
+
   create(createProjectDto: CreateProjectDto) {
     return 'This action adds a new project';
   }
 
   async findAll(): Promise<Event[]> {
-    return this.projectsRepository.find();
+    return this.projectsRepository.createQueryBuilder("events").where("events.type = :type", { type: "project" }).getMany();
   }
 
   findOne(id: number) {

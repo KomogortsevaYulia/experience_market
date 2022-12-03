@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router'
-
-
 import { storeToRefs } from 'pinia';
-import { onBeforeMount } from 'vue';
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { useLoginStore } from './stores/loginStore';
 
+const loginStore = useLoginStore();
+const router = useRouter();
+const route = useRoute();
 
+const {
+  username
+} = storeToRefs(loginStore);
+
+async function onLogout() {
+  await loginStore.logout();
+  console.log(route);
+  router.push(route.fullPath);
+}
 </script>
+
 
 <template>
   <div class="container">

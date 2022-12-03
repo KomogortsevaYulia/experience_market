@@ -13,19 +13,13 @@ export class EventsService {
     private readonly eventRepository: Repository<Event>,
   ) {}
 
-  // constructor(
-  //   @InjectRepository(User)  // user //,
-  //   private readonly usersRepository: Repository<User>,
-  // ) { }
-  
   create(createEventDto: CreateEventDto) {
     return 'This action adds a new event';
   }
-
+ 
   async findAll(): Promise<Event[]> {
-    return this.eventRepository.find();
+    return this.eventRepository.createQueryBuilder("events").where("events.type = :type", { type: "event" }).getMany();
   }
-
   findOne(id: number) {
     return `This action returns a #${id} event`;
   }
