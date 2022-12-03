@@ -4,17 +4,13 @@
 
 <template>
   <main>
-    <h1>Главная</h1>
-
     <section class="py-5 text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Album example</h1>
-          <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator,
-            etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+          <h1 class="fw-light">Биржа опыта</h1>
+          <p class="lead text-muted">Цель проекта:  повышения уровня компетенций в командной разработке с помощью нетворкинга начинающих IT специалистов.</p>
           <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            <a href="#" class="btn btn-primary my-2">Присоединиться</a>
           </p>
         </div>
       </div>
@@ -31,7 +27,7 @@
               dy=".3em">140x140</text>
           </svg>
 
-          <h2 class="fw-normal">Heading</h2>
+          <h2 class="fw-normal">Хакатоны</h2>
           <p>Some representative placeholder content for the three columns of text below the carousel. This is the first
             column.</p>
           <p><a class="btn btn-secondary" href="#">View details »</a></p>
@@ -44,7 +40,7 @@
               dy=".3em">140x140</text>
           </svg>
 
-          <h2 class="fw-normal">Heading</h2>
+          <h2 class="fw-normal">Проекты</h2>
           <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.
           </p>
           <p><a class="btn btn-secondary" href="#">View details »</a></p>
@@ -57,7 +53,7 @@
               dy=".3em">140x140</text>
           </svg>
 
-          <h2 class="fw-normal">Heading</h2>
+          <h2 class="fw-normal">Мероприятия</h2>
           <p>And lastly this, the third column of representative placeholder content.</p>
           <p><a class="btn btn-secondary" href="#">View details »</a></p>
         </div><!-- /.col-lg-4 -->
