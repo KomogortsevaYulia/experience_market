@@ -3,10 +3,11 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import router from "@/router";
 import routesNames from "@/router/routesNames";
 import HttpStatusCodes from "@/services/common/HttpStatusCodes";
-import User from "@/store/modules/User";
+
 import { notifyErrors, notifyWarn } from "@/utils/NotificationUtils";
 
 import { transformErrors } from "./Utils";
+import User from "@/stores/modules/User";
 
 const AuthInterceptor = (config: AxiosRequestConfig): AxiosRequestConfig => {
   const accessToken = User.authToken;
