@@ -1,8 +1,8 @@
 import {defineStore} from "pinia";
-import { useProjectsStore } from "@/stores/projects.store";
+// import { useProjectsStore } from "@/stores/projects.store";
 
 export const useMainStore = defineStore("mainStore", () => {
-    const projectsStore = useProjectsStore();
+    // const projectsStore = useProjectsStore();
 
     function init() {
         

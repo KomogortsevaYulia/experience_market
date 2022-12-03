@@ -1,14 +1,20 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import "./registerServiceWorker";
 
-import App from './App.vue'
-import router from './router'
+import Vue from "vue";
+import Notifications from "vue-notification";
 
-import './assets/main.css'
+import App from "./App.vue";
+import router, { RoutesNames } from "./router";
+import store from "./store";
 
-const app = createApp(App)
+Vue.config.productionTip = false;
 
-app.use(createPinia())
-app.use(router)
+Vue.prototype.$routesNames = RoutesNames;
 
-app.mount('#app')
+Vue.use(Notifications);
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount("#app");

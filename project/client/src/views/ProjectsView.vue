@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-import { useProjectsStore } from "@/stores/projects.store";
-import { storeToRefs } from 'pinia';
+// import TheWelcome from '../components/TheWelcome.vue'
+// import { useProjectsStore } from "@/stores/projects.store";
+// import { storeToRefs } from 'pinia';
 
-const projectsPageStore = useProjectsStore();
+// const projectsPageStore = useProjectsStore();
 
-const {
-  projectsItems
-} = storeToRefs(projectsPageStore)
+// const {
+//   projectsItems
+// } = storeToRefs(projectsPageStore)
 
 </script>
 
@@ -17,7 +17,7 @@ const {
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-      <span v-for="project in projectsItems">
+      <!-- <span v-for="project in projectsItems"> -->
 
         <div class="col">
           <div class="card shadow-sm">
@@ -25,7 +25,7 @@ const {
               role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
             </svg>
             <div class="card-body">
-              <p class="card-text">{{project.title}}</p>
+              <!-- <p class="card-text">{{project.title}}</p> -->
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -36,7 +36,7 @@ const {
             </div>
           </div>
         </div>
-      </span>
+      <!-- </span> -->
 
 
     </div>

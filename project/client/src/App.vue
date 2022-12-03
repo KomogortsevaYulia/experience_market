@@ -2,7 +2,7 @@
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 
-import { useProjectsStore } from "@/stores/projects.store";
+// import { useProjectsStore } from "@/stores/projects.store";
 import { useMainStore } from '@/stores/mainStore';
 import { storeToRefs } from 'pinia';
 import { onBeforeMount } from 'vue';
@@ -11,21 +11,21 @@ const mainStore = useMainStore();
 onBeforeMount(() => {
     mainStore.init()
 })
-// const vocabulariesStore = useVocabulariesStore();
-// const {
-//     categories
-// } = storeToRefs(vocabulariesStore)
-const router = useRouter();
-router.afterEach(async x => {
-    console.log(x.path);
-    if (x.path === '/projects') {
-        const projectsPageStore = useProjectsStore();
-        await projectsPageStore.fetchProjects();
-    } else if (x.path === '/') {
-        // const globalPageStore = useGlobalPageStore();
-        // await globalPageStore.refetchAll();
-    }
-})
+// // const vocabulariesStore = useVocabulariesStore();
+// // const {
+// //     categories
+// // } = storeToRefs(vocabulariesStore)
+// const router = useRouter();
+// router.afterEach(async x => {
+//     console.log(x.path);
+//     if (x.path === '/projects') {
+//         const projectsPageStore = useProjectsStore();
+//         await projectsPageStore.fetchProjects();
+//     } else if (x.path === '/') {
+//         // const globalPageStore = useGlobalPageStore();
+//         // await globalPageStore.refetchAll();
+//     }
+// })
 </script>
 
 <template>

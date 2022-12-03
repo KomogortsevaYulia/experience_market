@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import CONNECTION from './db.connection';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
 import { AchievementsModule } from './achievements/achievements.module';
 import { HackatonsModule } from './hackatons/hackatons.module';
@@ -17,16 +17,11 @@ import { EventsModule } from './events/events.module';
       synchronize: false,
       autoLoadEntities: true
     }),
-    
-    UsersModule,
-    
+    UserModule,
     ProjectsModule,
-    
     AchievementsModule,
-    
     HackatonsModule,
-    
-    EventsModule,],
+    EventsModule],
   controllers: [AppController],
   providers: [AppService],
 })
