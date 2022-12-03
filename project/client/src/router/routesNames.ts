@@ -3,29 +3,29 @@ import Vue from "vue";
 export interface IRoutesNames {
   home: string;
 
-  login: string;
-  register: string;
+  authLogin: string;
+  authRegister: string;
 
   projects: string;
   hackathons: string;
   competitions: string;
 
-//   profileIndex: string;
-//   profileSettings: string;
+  profileIndex: string;
+  profileSettings: string;
 }
 
 const routesNames: Readonly<IRoutesNames> = {
   home: "home",
 
-  login: "login",
-  register: "register",
+  authLogin: "authLogin",
+  authRegister: "authRegister",
 
   projects: "projects",
   hackathons: "hackathons",
   competitions: "competitions",
 
-//   profileIndex: "profileIndex",
-//   profileSettings: "profileSettings"
+  profileIndex: "profileIndex",
+  profileSettings: "profileSettings"
 };
 
 declare module "vue/types/vue" {

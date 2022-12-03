@@ -1,58 +1,59 @@
-import { RouteConfig } from "vue-router";
+import type { RouteConfig } from "vue-router";
 
 import RoutesNames from "./routesNames";
 
 export const Routes: RouteConfig[] = [
-    {
-        path: '/',
-        name: RoutesNames.home,
-        component: () => import('../views/HomeView.vue')
-    },
-    {
-        path: '/projects',
-        name: RoutesNames.projects,
-        component: () => import('../views/ProjectsView.vue')
-    },
-    {
-        path: '/hackathons',
-        name: RoutesNames.hackathons,
-        component: () => import('../views/HackathonsView.vue')
-    },
-    {
-        path: '/competitions',
-        name: RoutesNames.competitions,
-        component: () => import('../views/CompetitionsView.vue')
-    },
-    {
-        path: '/login',
-        name: RoutesNames.login,
-        component: () => import('../views/LoginView.vue'),
-        meta: {
-            anonymousOnly: true
-        }
-    },
-    {
-        path: '/register',
-        name: RoutesNames.register,
-        component: () => import('../views/RegisterView.vue'),
-        meta: {
-            anonymousOnly: true
-        }
-    },
-    
-    // {
-    //     path: "/editor",
-    //     name: RoutesNames.articleCreate,
-    //     component: () =>
-    //         import(
-    //     /* webpackChunkName: "articleCreate" */ "@/views/ArticleCreate.vue"
-    //         ),
-    //     meta: {
-    //         requiresAuth: true
-    //     }
-    // },
-    {
-        path: "*",
-        redirect: { name: RoutesNames.home }
+  {
+    path: "/",
+    name: RoutesNames.home,
+    component: () => import(/* webpackChunkName: "home" */ "@/views/HomeView.vue")
+  },
+  {
+    path: "/login",
+    name: RoutesNames.authLogin,
+    component: () =>
+      import(/* webpackChunkName: "authLogin" */ "@/views/LoginView.vue"),
+    meta: {
+      anonymousOnly: true
     }
+  },
+  {
+    path: "/register",
+    name: RoutesNames.authRegister,
+    component: () =>
+      import(/* webpackChunkName: "authRegister" */ "@/views/RegisterView.vue"),
+    meta: {
+      anonymousOnly: true
+    }
+  },
+  {
+    path: "/hackathons",
+    name: RoutesNames.hackathons,
+    component: () =>
+      import(
+        /* webpackChunkName: "articleCreate" */ "@/views/HackathonsView.vue"
+      ),
+    // meta: {
+    //   requiresAuth: true
+    // }
+  },
+  {
+    path: "/projects",
+    name: RoutesNames.projects,
+    component: () =>
+      import(/* webpackChunkName: "articleEdit" */ "@/views/ProjectsView.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/competitions",
+    name: RoutesNames.competitions,
+    component: () =>
+      import(/* webpackChunkName: "articleView" */ "@/views/CompetitionsView.vue")
+  },
+  {
+    path: "*",
+    redirect: { name: RoutesNames.home }
+  }
 ];

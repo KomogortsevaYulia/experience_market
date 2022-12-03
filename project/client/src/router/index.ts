@@ -1,4 +1,3 @@
-export default router
 import Vue from "vue";
 import VueRouter, { Location, Route } from "vue-router";
 
@@ -11,7 +10,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: "history",
-  base: import.meta.env.BASE_URL,
+  base: process.env.BASE_URL,
   routes: Routes
 });
 
@@ -20,7 +19,7 @@ const requiresAuthGuard = (to: Route, from: Route, next: Function): boolean => {
     const isLoggedIn = !!User.currentUser;
     if (!isLoggedIn) {
       next({
-        name: RoutesNames.login,
+        name: RoutesNames.authLogin,
         query: { redirect: to.fullPath }
       });
     } else {

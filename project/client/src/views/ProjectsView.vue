@@ -1,13 +1,4 @@
 <script setup lang="ts">
-// import TheWelcome from '../components/TheWelcome.vue'
-// import { useProjectsStore } from "@/stores/projects.store";
-// import { storeToRefs } from 'pinia';
-
-// const projectsPageStore = useProjectsStore();
-
-// const {
-//   projectsItems
-// } = storeToRefs(projectsPageStore)
 
 </script>
 
