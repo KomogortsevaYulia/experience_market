@@ -4,7 +4,7 @@ import CONNECTION from "./db.connection"
 //@ts-ignore
 const AppDataSource = new DataSource({
     ...CONNECTION,
-    entities:["*/*.entity.ts"],
+    entities:["src/entities/*.entity.ts"],
     migrations:["src/migrations/*.ts"]
 })
 

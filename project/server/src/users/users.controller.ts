@@ -10,7 +10,6 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserRO } from './user.interface';
 
 @ApiBearerAuth()
-@ApiTags('user')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

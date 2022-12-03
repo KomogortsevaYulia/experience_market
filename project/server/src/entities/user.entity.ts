@@ -45,10 +45,10 @@ export class User {
     password: string;
     
     @Column()
-    bio: any;
+    bio: string;
     
     @Column()
-    image: any;
+    image: string;
 
     @BeforeInsert()
     async hashPassword() {

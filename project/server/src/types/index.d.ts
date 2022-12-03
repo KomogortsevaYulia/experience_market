@@ -1,7 +1,8 @@
-import { User } from 'src/entities/user.entity';
+import express from "express";
+import { User } from "src/entities/user.entity";
 
 declare global {
-  namespace Nest {
+  namespace Express {
     interface Request {
       user?: Record<User>
     }

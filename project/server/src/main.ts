@@ -11,11 +11,10 @@ async function bootstrap() {
     .setTitle('expirience market API')
     .setDescription('The expirience market API description')
     .setVersion('1.0')
-    .addBearerAuth()
     .build();
     
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/docs', app, document);
+  SwaggerModule.setup('documentation', app, document);
 
   await app.listen(3000);
 }
