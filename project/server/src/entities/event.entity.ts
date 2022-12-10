@@ -21,7 +21,7 @@ export class Event {
     @Column({
         type: "enum",
         enum: ["competition", "challenge"],
-        default: "challenge",
+        default: null,
         nullable: true
     })
     type_events: string
@@ -29,7 +29,7 @@ export class Event {
     @Column({
         type: "enum",
         enum: ["training", "unique"],
-        default: "training",
+        default: null,
         nullable: true
     })
     type_project: string

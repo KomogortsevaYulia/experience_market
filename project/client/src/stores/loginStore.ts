@@ -6,14 +6,15 @@ export const useLoginStore = defineStore("loginStore", () => {
     const permissions = ref([]);
     const username = ref(null);
 
-    async function login(_username: any, _password: any) {
-        let r = await axios.post("/api/login", {
-            password: _password,
-            user: _username
+    async function login(_email: any, _password: any) {
+        let r = await axios.post("/api/users/login", {
+            "user": {
+                password: _password,
+                email: _email
+            }
         })
 
         await checkLogin();
-
         return username.value;
     }
 
@@ -41,7 +42,6 @@ export const useLoginStore = defineStore("loginStore", () => {
 
     return {
         username,
-
         login,
         logout,
         checkLogin,

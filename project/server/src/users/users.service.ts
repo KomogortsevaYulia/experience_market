@@ -41,7 +41,7 @@ export class UsersService {
 
     // check uniqueness of username/email
     const {username, email, password} = dto;
-    const qb = await getRepository(User)
+    const qb = await this.usersRepository
       .createQueryBuilder('user')
       .where('user.username = :username', { username })
       .orWhere('user.email = :email', { email });

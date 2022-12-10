@@ -14,29 +14,29 @@ import { UserRO } from './user.interface';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('user')
+  @Get()
   async findMe(@User('email') email: string): Promise<UserRO> {
     return await this.usersService.findByEmail(email);
   }
 
-  @Put('user')
+  @Put()
   async update(@User('id') userId: number, @Body('user') userData: UpdateUserDto) {
     return await this.usersService.update(userId, userData);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('users')
+  @Post()
   async create(@Body('user') userData: CreateUserDto) {
     return this.usersService.create(userData);
   }
 
-  @Delete('users/:slug')
+  @Delete(':slug')
   async delete(@Param() params) {
     return await this.usersService.delete(params.slug);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('users/login')
+  @Post('/login')
   async login(@Body('user') loginUserDto: LoginUserDto): Promise<UserRO> {
     const _user = await this.usersService.findOne(loginUserDto);
 

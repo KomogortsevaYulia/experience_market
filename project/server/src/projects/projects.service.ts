@@ -22,7 +22,7 @@ export class ProjectsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} project`;
+    return this.projectsRepository.createQueryBuilder("events").where("events.id = :id", { id: id }).getOne();
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {

@@ -1,0 +1,565 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.5
+-- Dumped by pg_dump version 14.5
+
+-- Started on 2022-12-11 02:14:28
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+ALTER TABLE ONLY public.events DROP CONSTRAINT "FK_e42a2576d951f7ecc17787e5cb7";
+ALTER TABLE ONLY public.events DROP CONSTRAINT "FK_39f98b48445861611ea17108071";
+ALTER TABLE ONLY public.events DROP CONSTRAINT "REL_39f98b48445861611ea1710807";
+ALTER TABLE ONLY public.tags DROP CONSTRAINT "PK_e7dc17249a1148a1970748eda99";
+ALTER TABLE ONLY public.users DROP CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433";
+ALTER TABLE ONLY public.migrations DROP CONSTRAINT "PK_8c82d7f526340ab734260ea46be";
+ALTER TABLE ONLY public.events DROP CONSTRAINT "PK_40731c7151fe4be3116e45ddf73";
+ALTER TABLE public.users ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.tags ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.migrations ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.events ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.users_id_seq;
+DROP TABLE public.users;
+DROP SEQUENCE public.tags_id_seq;
+DROP TABLE public.tags;
+DROP SEQUENCE public.migrations_id_seq;
+DROP TABLE public.migrations;
+DROP SEQUENCE public.events_id_seq;
+DROP TABLE public.events;
+DROP TYPE public.users_gender_enum;
+DROP TYPE public.events_type_project_enum;
+DROP TYPE public.events_type_events_enum;
+DROP TYPE public.events_type_enum;
+--
+-- TOC entry 829 (class 1247 OID 27734)
+-- Name: events_type_enum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.events_type_enum AS ENUM (
+    'event',
+    'project',
+    'hackaton'
+);
+
+
+ALTER TYPE public.events_type_enum OWNER TO postgres;
+
+--
+-- TOC entry 832 (class 1247 OID 27742)
+-- Name: events_type_events_enum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.events_type_events_enum AS ENUM (
+    'competition',
+    'challenge'
+);
+
+
+ALTER TYPE public.events_type_events_enum OWNER TO postgres;
+
+--
+-- TOC entry 835 (class 1247 OID 27748)
+-- Name: events_type_project_enum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.events_type_project_enum AS ENUM (
+    'training',
+    'unique'
+);
+
+
+ALTER TYPE public.events_type_project_enum OWNER TO postgres;
+
+--
+-- TOC entry 838 (class 1247 OID 27754)
+-- Name: users_gender_enum; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.users_gender_enum AS ENUM (
+    'male',
+    'female'
+);
+
+
+ALTER TYPE public.users_gender_enum OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 209 (class 1259 OID 27759)
+-- Name: events; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.events (
+    id integer NOT NULL,
+    title character varying NOT NULL,
+    type public.events_type_enum DEFAULT 'event'::public.events_type_enum NOT NULL,
+    type_events public.events_type_events_enum DEFAULT 'challenge'::public.events_type_events_enum,
+    type_project public.events_type_project_enum DEFAULT 'training'::public.events_type_project_enum,
+    images text NOT NULL,
+    descriptions character varying NOT NULL,
+    date_start timestamp without time zone NOT NULL,
+    date_end timestamp without time zone,
+    team_size character varying,
+    last_time_registration timestamp without time zone,
+    prize character varying,
+    creator_id integer,
+    tags integer
+);
+
+
+ALTER TABLE public.events OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 27767)
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.events_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.events_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3363 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 27768)
+-- Name: migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.migrations (
+    id integer NOT NULL,
+    "timestamp" bigint NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.migrations OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 27773)
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.migrations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3364 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 27774)
+-- Name: tags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tags (
+    id integer NOT NULL,
+    title character varying NOT NULL,
+    description character varying NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 27779)
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tags_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3365 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
+-- TOC entry 215 (class 1259 OID 27780)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    last_name character varying,
+    name character varying,
+    patronymic character varying,
+    username character varying NOT NULL,
+    birthdate timestamp without time zone,
+    phone character varying,
+    email character varying NOT NULL,
+    gender public.users_gender_enum DEFAULT 'male'::public.users_gender_enum NOT NULL,
+    permission text,
+    password character varying NOT NULL,
+    bio character varying,
+    image character varying
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 27786)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3366 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 3194 (class 2604 OID 27787)
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
+-- TOC entry 3195 (class 2604 OID 27788)
+-- Name: migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 3196 (class 2604 OID 27789)
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
+-- TOC entry 3198 (class 2604 OID 27790)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 3350 (class 0 OID 27759)
+-- Dependencies: 209
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.events (id, title, type, type_events, type_project, images, descriptions, date_start, date_end, team_size, last_time_registration, prize, creator_id, tags) FROM stdin;
+5	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+7	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+8	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+85	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+86	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+9	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+87	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+10	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+88	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+11	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+89	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+12	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+90	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+13	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+91	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+14	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+92	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+15	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+93	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+16	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+94	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+17	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+95	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+18	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+96	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+19	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+97	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+20	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+98	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+21	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+99	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+22	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+100	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+23	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+101	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+24	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+102	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+25	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+103	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+26	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+27	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+28	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+29	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+30	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+6	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+31	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+32	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+33	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+34	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+35	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+36	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+37	Проект 2	project	\N	unique	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+39	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+41	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+43	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+45	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+76	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+78	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+80	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+81	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+82	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+83	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+84	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+47	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+49	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+51	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+53	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+55	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+57	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+59	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+61	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+63	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+65	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+67	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+69	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+71	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+73	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+75	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+77	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+79	Проект 2	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+4	Проект 1	project	\N	training	https://cleverics.ru/digital/wp-content/uploads/2022/08/20944999-scaled.jpg	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+74	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+38	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+40	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+42	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+44	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+46	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+48	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+50	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+52	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+54	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+56	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+58	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+60	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+62	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+64	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+66	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+68	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+70	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+72	Проект 1	event	competition	\N	https://leader-id.storage.yandexcloud.net/upload/884013/fb571af2-10e1-4df7-b6bc-cee25cac4ea9.png	Интересный проект	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+104	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+105	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+106	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+107	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+108	Хакатон 1	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+109	Хакатон 2	hackaton	\N	\N	https://i.pinimg.com/originals/dc/c6/f3/dcc6f35b868e3763f02bb7d33999460b.jpg	Интересный Хакатон	2022-02-01 00:00:00	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- TOC entry 3352 (class 0 OID 27768)
+-- Dependencies: 211
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.migrations (id, "timestamp", name) FROM stdin;
+1	1670050203783	auto1670050203783
+2	1670660298143	auto1670660298143
+\.
+
+
+--
+-- TOC entry 3354 (class 0 OID 27774)
+-- Dependencies: 213
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tags (id, title, description) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3356 (class 0 OID 27780)
+-- Dependencies: 215
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, last_name, name, patronymic, username, birthdate, phone, email, gender, permission, password, bio, image) FROM stdin;
+1	Комогорцева	Юлия	Владимировна	komogyv	2001-02-01 00:00:00	89243333333	komog-y-v@ttt.ru	female	Может все	root	Интересное описание	https://sun9-10.userapi.com/impg/5GloaHSueaSNhRKoMT6CAXoxk2okmirCk-ebdw/azAQ68t0flE.jpg?size=960x1280&quality=95&sign=496b1c6c3ca13a3fd35868efab49919f&type=album
+3	\N	\N	\N	admin	\N	\N	komog-y-v@yandex.ru	male	\N	$argon2id$v=19$m=65536,t=3,p=4$EnAU3qdtoUETrggaYf3Aig$A17jvFZSon5tFZNkD3DYYIkzjRhKJrRxzpdKnb6tX4A	\N	\N
+4	\N	\N	\N	1234	\N	\N	a@yandex.ru	male	\N	$argon2id$v=19$m=65536,t=3,p=4$J+hXXXB6GGL9EMVWFk6rDg$TW9nWuJK/SNUe6iyz8rG3EvstFdRf0Vw4OzxOIFWZaA	\N	\N
+\.
+
+
+--
+-- TOC entry 3367 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.events_id_seq', 109, true);
+
+
+--
+-- TOC entry 3368 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 2, true);
+
+
+--
+-- TOC entry 3369 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tags_id_seq', 1, false);
+
+
+--
+-- TOC entry 3370 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 27792)
+-- Name: events PK_40731c7151fe4be3116e45ddf73; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "PK_40731c7151fe4be3116e45ddf73" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3204 (class 2606 OID 27794)
+-- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.migrations
+    ADD CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3208 (class 2606 OID 27796)
+-- Name: users PK_a3ffb1c0c8416b9fc6f907b7433; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3206 (class 2606 OID 27798)
+-- Name: tags PK_e7dc17249a1148a1970748eda99; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT "PK_e7dc17249a1148a1970748eda99" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3202 (class 2606 OID 27800)
+-- Name: events REL_39f98b48445861611ea1710807; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "REL_39f98b48445861611ea1710807" UNIQUE (creator_id);
+
+
+--
+-- TOC entry 3209 (class 2606 OID 27801)
+-- Name: events FK_39f98b48445861611ea17108071; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "FK_39f98b48445861611ea17108071" FOREIGN KEY (creator_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 3210 (class 2606 OID 27806)
+-- Name: events FK_e42a2576d951f7ecc17787e5cb7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "FK_e42a2576d951f7ecc17787e5cb7" FOREIGN KEY (tags) REFERENCES public.tags(id);
+
+
+-- Completed on 2022-12-11 02:14:29
+
+--
+-- PostgreSQL database dump complete
+--
+

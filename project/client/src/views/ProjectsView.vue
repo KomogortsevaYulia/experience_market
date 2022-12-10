@@ -2,21 +2,28 @@
 import { useProjectStore } from "@/stores/projectStore";
 import { ref, onBeforeMount } from "vue";
 
+import { Carousel } from 'bootstrap'
+
+function onMounted() {
+  Carousel("#carouselImage")
+}
+
 const show = ref(true);
 const showCreate = ref(false);
 const layout = ref(true);
 const data = ref()
 onBeforeMount(async () => {
-  fetchProject()
+  fetchProjects()
 })
-async function fetchProject() {
-  data.value = await useProjectStore().fetchProject()
+async function fetchProjects() {
+  data.value = await useProjectStore().fetchProjects()
 }
 </script>
 
+
 <template>
   <div class="projects">
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide " data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
@@ -25,6 +32,9 @@ async function fetchProject() {
       </div>
       <div class="carousel-inner">
         <div class="carousel-item">
+          <!-- <img
+            src="https://avatars.mds.yandex.net/i?id=78fdc9be1a46b5fa0fc0b0b53d5e3d990318de50-5236398-images-thumbs&n=13"
+            class="d-block w-30 justify-content-end" alt="..."> -->
           <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
             <rect width="100%" height="100%" fill="#777"></rect>
@@ -34,7 +44,7 @@ async function fetchProject() {
             <div class="carousel-caption text-start">
               <h1>Example headline.</h1>
               <p>Some representative placeholder content for the first slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+              <p><a class="btn btn-lg btn-primary" href="#"> Зарегестрироваться сейчас</a></p>
             </div>
           </div>
         </div>
@@ -48,7 +58,7 @@ async function fetchProject() {
             <div class="carousel-caption">
               <h1>Another example headline.</h1>
               <p>Some representative placeholder content for the second slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+              <p><a class="btn btn-lg btn-primary" href="#">Создать проект</a></p>
             </div>
           </div>
         </div>
@@ -62,7 +72,7 @@ async function fetchProject() {
             <div class="carousel-caption text-end">
               <h1>One more for good measure.</h1>
               <p>Some representative placeholder content for the third slide of this carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+              <p><a class="btn btn-lg btn-primary" href="#">Рулетка проектов</a></p>
             </div>
           </div>
         </div>
@@ -82,50 +92,45 @@ async function fetchProject() {
       </div>
       <div class="col-9">
         <input class="form-control  mb-3" type="text" placeholder="Поиск" aria-label="Поиск">
-        <span v-for="project in data">
+        <div class="card mb-3" v-for="project in data">
+          <div class="row g-0">
+            <div class="col-md-4 col-3">
 
-          <div class="card mb-3" >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <svg xmlns="{{ project.images }}" width="100%" height="200" fill="currentColor"
-                  class="bi bi-card-image p-2" viewBox="0 0 16 16">
-                 </svg>
+              <div id="carouselImage" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner ">
+
+                  <div class="carousel-item active" v-for="img in project.images">
+                    <img :src="img" class="d-block w-100" alt="...">
+                  </div>
+                </div>
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
+
+            </div>
+            <div class="col-md-8 ">
+              <div class="card-body">
+                <router-link :to="'/projects/'+project.id">
                   <h5 class="card-title">{{ project.title }}</h5>
-                  <p class="card-text">{{ project.descriptions }}</p>
+                </router-link>
+
+                <p class="card-text">{{ project.descriptions }}</p>
+                <div class="row justify-content-between">
+                  <div class="col">
+                    <span class="badge rounded-pill text-bg-primary me-1">Веб-разработка</span>
+                    <span class="badge rounded-pill text-bg-secondary me-1">AI & ML</span>
+                    <span class="badge rounded-pill text-bg-success me-1">Инфобез</span>
+                    <span class="badge rounded-pill text-bg-info me-1">Дизайн</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- <div class="row shadow-sm">
-            <div class="col">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="200" fill="currentColor"
-                class="bi bi-card-image" viewBox="0 0 16 16">
-                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                <path
-                  d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z" />
-              </svg>
-            </div>
-            <div class="col">
-              <p class="card-text">{{ project.title }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-              </div>
-            </div>
-          </div> -->
-        </span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 <style>
-/* @media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-} */
+
 </style>

@@ -9,10 +9,10 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: true })
     last_name: string
 
-    @Column()
+    @Column({ nullable: true })
     name: string
 
     @Column({ nullable: true })
@@ -38,16 +38,16 @@ export class User {
     })
     gender: string
 
-    @Column("simple-array")
+    @Column("simple-array",{ nullable: true })
     permission: string[]
 
     @Column()
     password: string;
     
-    @Column()
+    @Column({ nullable: true })
     bio: string;
     
-    @Column()
+    @Column({ nullable: true })
     image: string;
 
     @BeforeInsert()
