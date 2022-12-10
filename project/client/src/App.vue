@@ -38,6 +38,7 @@ async function onLogout() {
         </li>
         <li><RouterLink to="/hackathons" class="nav-link px-2 link-dark">Хакатоны</RouterLink></li>
         <li><RouterLink to="/competitions" class="nav-link px-2 link-dark">Конкурсы</RouterLink></li>
+        <li><RouterLink to="/admin" class="nav-link px-2 link-dark">Админ</RouterLink></li>
       </ul>
 
       <div class="col-md-3 text-end">
