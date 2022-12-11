@@ -25,6 +25,9 @@ export class User {
     birthdate: Date
 
     @Column({ nullable: true })
+    date_token: Date
+
+    @Column({ nullable: true })
     phone: string
 
     @Column()

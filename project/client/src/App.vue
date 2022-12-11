@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { useUserStore } from './stores/userStore';
 
-const loginStore = useUserStore();
+import { useUserStore } from './stores/userStore';
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 
 const {
-  user,permissions
-} = storeToRefs(loginStore);
+  username,permissions
+} = storeToRefs(userStore);
+
 
 async function onLogout() {
-  await loginStore.logout();
-
-  // router.push(route.fullPath);
+  await userStore.logout();
+  router.push(route.fullPath);
 }
 </script>
 
@@ -37,13 +37,15 @@ async function onLogout() {
           <RouterLink to="/projects" class="nav-link px-2 link-dark">Проекты</RouterLink>
         </li>
         <li><RouterLink to="/hackathons" class="nav-link px-2 link-dark">Хакатоны</RouterLink></li>
-        <li><RouterLink to="/competitions" class="nav-link px-2 link-dark">Конкурсы</RouterLink></li>
-        <li v-if="permissions.find((obj: string) => { return obj === 'can admin'; })"><RouterLink to="/admin" class="nav-link px-2 link-dark">Админ</RouterLink></li>
+        <li><RouterLink to="/competitions" class="nav-link px-2 link-dark">Мероприятия</RouterLink></li>
+        <li 
+         v-if="permissions?.includes('can admin')" 
+          ><RouterLink to="/admin" class="nav-link px-2 link-dark">Админ панель</RouterLink></li>
       </ul>
 
-      <div class="col-md-3 text-end" v-if="user" >
-        <RouterLink to="/login" class="me-2">{{user}}</RouterLink>
-        <RouterLink to="/" class="btn btn-outline-primary me-2" @submit.prevent="onLogout()" >Выйти</RouterLink>
+      <div class="col-md-3 text-end" v-if="username" >
+        <RouterLink :to=" '/profile/'+username" class="me-2">{{username}}</RouterLink>
+        <a href="/" class="btn btn-outline-primary me-2" @click="onLogout()" >Выйти</a>
       </div>
       <div class="col-md-3 text-end" v-else="user" >
         <RouterLink to="/login" class="btn btn-outline-primary me-2">Войти</RouterLink>

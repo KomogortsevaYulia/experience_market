@@ -51,7 +51,7 @@ export class Event {
         { name: "creator_id" ,}
     ])
     @OneToOne(() => User, (user) =>user.id)
-    creator: User
+    creator: number
     
     @JoinColumn([
         { name: "tags" ,}

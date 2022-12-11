@@ -1,12 +1,35 @@
 <script setup lang="ts">
-import { useProjectStore } from "@/stores/projectStore";
-import { ref, onBeforeMount } from "vue";
-import { Vue } from "vue-property-decorator";
+import router from '@/router';
+import { useProjectStore } from '@/stores/projectStore';
+import { useUserStore } from '@/stores/userStore';
+import { ref } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+const userStore = useUserStore();
+
+const route = useRoute();
+
+const {
+  id
+} = storeToRefs(userStore);
+
+const title = ref("");
+const image = ref("");
+const type_project = ref("");
+const description = ref("");
+
+async function onSubmit() {
+  type_project.value="training"
+  let project = await useProjectStore().createProject(title.value, image.value, type_project.value, description.value , id.value! );
+
+  router.push({ path: `/projects` });
+}
 
 </script>
 
 <template>
-
   <a class="btn btn-outline-primary" href="/projects"><i class="bi bi-arrow-left"></i>Проекты</a>
   <div class="py-5 text-center">
     <h2>Создание проекта</h2>
@@ -14,11 +37,14 @@ import { Vue } from "vue-property-decorator";
       ближайшее время администратор рассмотрит заявку и вам придет уведомление о результате.</p>
   </div>
 
-
-  <form class="row g-1">
+  <form @submit.prevent="onSubmit()">
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><h4 >Название проекта</h4></label>
-      <input type="text" class="form-control" id="exampleFormControlInput1">
+      <label for="exampleFormControlInput1" class="form-label">
+        <h4>Название проекта</h4>
+      </label>
+      <fieldset>
+        <input class="form-control form-control-lg" type="text" v-model="title" placeholder="Название" />
+      </fieldset>
     </div>
 
     <h4 class="mb-3">Тип проекта</h4>
@@ -36,17 +62,24 @@ import { Vue } from "vue-property-decorator";
     </div>
 
     <div class="mb-3">
-      <label for="exampleFormControlTextarea1" class="form-label"><h4 >Описание проекта</h4></label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <label class="form-label">
+        <h4>Описание проекта</h4>
+      </label>
+      <fieldset>
+        <textarea class="form-control form-control-l" v-model="description" rows="3"></textarea>
+      </fieldset>
     </div>
 
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"><h4>Ссылка на картинку проекта</h4></label>
-      <input type="text" class="form-control" id="exampleFormControlInput1">
+      <label for="exampleFormControlInput1" class="form-label">
+        <h4>Ссылка на картинку проекта</h4>
+      </label>
+      <fieldset>
+        <input class="form-control form-control-lg" type="text" v-model="image" placeholder="URL" />
+      </fieldset>
     </div>
-
-
-    <button class="w-100 btn btn-primary btn-lg" type="submit">Отправить заявку на создание</button>
+<div class="row justify-content-center">
+    <button class="col-auto btn btn-primary btn-lg" type="submit">Отправить заявку на создание</button></div>
   </form>
 </template>
 <style>

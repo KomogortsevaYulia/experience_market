@@ -2,18 +2,19 @@
 import router from '@/router';
 import { useUserStore } from '@/stores/userStore';
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
-
-const loginStore = useUserStore();
-
+const userStore = useUserStore();
+// const router = useRouter();
+const route = useRoute();
+ 
 const email = ref("");
 const password = ref("");
 
 async function onSubmit() {
-  let result = await loginStore.login(email.value, password.value);
+  let username = await userStore.login(email.value, password.value);
 
-
+  router.push({ path: `/profile/${username}` });
 }
 
 </script>

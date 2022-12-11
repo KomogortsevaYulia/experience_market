@@ -5,11 +5,17 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  //@ts-ignore
   routes: [
     {
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/profile/:username',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue')
     },
     {
       path: '/projects',
@@ -65,9 +71,9 @@ const router = createRouter({
 
 // router.beforeEach(async (to, from, next) => {
 //   if (to.meta.permission) {
-//     const loginStore = useLoginStore();
-//     await loginStore.checkLogin();
-//     if (!loginStore.can(to.meta.permission)) {
+//     const userStore = useuserStore();
+//     await userStore.checkLogin();
+//     if (!userStore.can(to.meta.permission)) {
 //       next({
 //         path: "/login",
 //         query: { next: to.fullPath }

@@ -1,19 +1,21 @@
 <script setup lang="ts">
+
 import router from '@/router';
 import { useUserStore } from '@/stores/userStore';
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
+// const router = useRouter();
+const route = useRoute();
 
-
-const registerStore = useUserStore();
+const registerStore = useUserStore(); 
 
 const email = ref("");
 const password = ref("");
 const username= ref("");
 
 async function onSubmit() {
-  let result = await registerStore.register(email.value, password.value,username.value);
-
+  let un  = await registerStore.register(email.value, password.value,username.value);
+  router.push({ path: `/profile/${un}` });
 }
 
 </script>

@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import { useProjectStore } from "@/stores/projectStore";
 import { ref, onBeforeMount } from "vue";
-
+import { storeToRefs } from 'pinia';
+//@ts-ignore
 import { Carousel } from 'bootstrap'
+import { useUserStore } from "@/stores/userStore";
+import { RouterLink } from "vue-router";
+import router from "@/router";
 
+
+const userStore = useUserStore();
 function onMounted() {
   Carousel("#carouselImage")
 }
+
+const {
+  token
+} = storeToRefs(userStore);
 
 const data = ref()
 onBeforeMount(async () => {
@@ -15,6 +25,7 @@ onBeforeMount(async () => {
 async function fetchProjects() {
   data.value = await useProjectStore().fetchProjects()
 }
+
 </script>
 
 
@@ -52,7 +63,10 @@ async function fetchProjects() {
             </div>
             <div class="col-auto align-self-center">
               <div class="row mb-3">Создай свой проект и набери команду!</div>
-              <div class="row"><a class="btn btn-lg btn-primary" href="/projects/create"> Создать проект</a></div>
+              <div class="row">
+                <a class="btn btn-lg btn-primary" v-if="token" href="/projects/create"> Создать проект</a>
+                <a class="btn btn-lg btn-primary" v-else="token" href="/login" > Создать проект</a>
+              </div>
             </div>
           </div>
         </div>
@@ -125,6 +139,7 @@ async function fetchProjects() {
                 </router-link>
 
                 <p class="card-text">{{ project.descriptions }}</p>
+                <p class="card-text">{{ project.type_project=="unique"?"Уникальный" :"Учебный" }}</p>
                 <div class="row justify-content-between">
                   <div class="col">
                     <span class="badge rounded-pill text-bg-primary me-1">Веб-разработка</span>

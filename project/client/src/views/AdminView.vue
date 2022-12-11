@@ -1,4 +1,15 @@
-<script setup lang="ts">
+<script setup lang="ts">import { useProjectStore } from '@/stores/projectStore';
+import { ref, onBeforeMount } from 'vue';
+
+
+const countRequestCreateProject = ref()
+onBeforeMount(async () => {
+    fetchCountRequestCreateProject()
+})
+async function fetchCountRequestCreateProject() {
+    countRequestCreateProject.value = await useProjectStore().fetchCountRequestCreateProject()
+}
+
 </script>
 
 <template>
@@ -11,7 +22,7 @@
                             <div class="row">
 
                                 <div class="col-4 ms-4">
-                                    <h2>25</h2>
+                                    <h2>{{countRequestCreateProject}}</h2>
                                 </div>
                                 <div class="col">поданных заявок на создание проекта</div>
 

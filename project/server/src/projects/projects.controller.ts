@@ -23,6 +23,11 @@ export class ProjectsController {
     return this.projectsService.findRequestCreateProject();
   }
 
+  @Get('requestCreateProject/count')
+  findCountRequestCreateProject() {
+    return this.projectsService.findCountRequestCreateProject();
+  } 
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.projectsService.findOne(+id);

@@ -2,6 +2,7 @@
 import { useProjectStore } from "@/stores/projectStore";
 import { ref, onBeforeMount } from "vue";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import router from "@/router";
 
 const show = ref(true);
 const showCreate = ref(false);
@@ -12,6 +13,12 @@ onBeforeMount(async () => {
 })
 async function fetchRequestCreateProject() {
   data.value = await useProjectStore().fetchRequestCreateProject()
+}
+
+async function onLogout(id:number,status:string) {
+  await useProjectStore().updateProject(id,status);
+  fetchRequestCreateProject();
+  router.push({ path: `/admin/requestCreateProject` });
 }
 
 </script>
@@ -25,6 +32,7 @@ async function fetchRequestCreateProject() {
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Название</th>
+        <th scope="col">Описание</th>
         <th scope="col">Тип</th>
         <th scope="col">Статус</th>
         <th scope="col">Решение</th>
@@ -35,15 +43,16 @@ async function fetchRequestCreateProject() {
       <tr>
         <th scope="row">{{ project.id }}</th>
         <td>{{ project.title }}</td>
-        <td>{{ project.type_project }}</td>
+        <td>{{ project.descriptions }}</td>
+        <td>{{ project.type_project=="unique"?"Уникальный" :"Учебный" }}</td>
         <td>
           <p class="alert alert-danger" v-if=" project.status=='not viewed'" > {{ project.status }} </p>
           <p v-if=" project.status=='created'" > {{ project.status }} </p>
           <p v-if=" project.status=='not created'"> {{ project.status }} </p>
         </td>
         <td>
-          <button type="button" class="btn btn-outline-success me-3">Создать</button>
-          <button type="button" class="btn btn-outline-warning">Отклонить</button>
+          <button v-if=" project.status=='not viewed'" type="button" class="btn btn-outline-success me-3" @click="onLogout( project.id,'created')">Создать</button>
+          <button v-if=" project.status=='not viewed'" type="button" class="btn btn-outline-warning" @click="onLogout( project.id,'not created')">Отклонить</button>
         </td>
       </tr>
 

@@ -59,8 +59,8 @@ export class UsersService {
     newUser.username = username;
     newUser.email = email;
     newUser.password = password;
-    // newUser.articles = [];
-
+    newUser.permission = [];
+ 
     const errors = await validate(newUser);
     if (errors.length > 0) {
       const _errors = {username: 'Userinput is not valid.'};
@@ -105,8 +105,7 @@ export class UsersService {
   public generateJWT(user) {
     let today = new Date();
     let exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
-
+    exp.setDate(today.getDate() + 10);
     return jwt.sign({
       id: user.id,
       username: user.username,
@@ -120,7 +119,8 @@ export class UsersService {
       id: user.id,
       username: user.username,
       email: user.email,
-      token: this.generateJWT(user)
+      token: this.generateJWT(user),
+      permission: user.permission
     };
 
     return {user: userRO};
