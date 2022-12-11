@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { useLoginStore } from './stores/loginStore';
+import { useUserStore } from './stores/userStore';
 
-const loginStore = useLoginStore();
+const loginStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 
 const {
-  username
+  user,permissions
 } = storeToRefs(loginStore);
 
 async function onLogout() {
   await loginStore.logout();
-  console.log(route);
-  router.push(route.fullPath);
+
+  // router.push(route.fullPath);
 }
 </script>
 
@@ -38,12 +38,16 @@ async function onLogout() {
         </li>
         <li><RouterLink to="/hackathons" class="nav-link px-2 link-dark">Хакатоны</RouterLink></li>
         <li><RouterLink to="/competitions" class="nav-link px-2 link-dark">Конкурсы</RouterLink></li>
-        <li><RouterLink to="/admin" class="nav-link px-2 link-dark">Админ</RouterLink></li>
+        <li v-if="permissions.find((obj: string) => { return obj === 'can admin'; })"><RouterLink to="/admin" class="nav-link px-2 link-dark">Админ</RouterLink></li>
       </ul>
 
-      <div class="col-md-3 text-end">
-        <RouterLink to="/login" class="btn btn-outline-primary me-2">Login</RouterLink>
-        <RouterLink to="/register" class="btn btn-primary">Sign-up</RouterLink>
+      <div class="col-md-3 text-end" v-if="user" >
+        <RouterLink to="/login" class="me-2">{{user}}</RouterLink>
+        <RouterLink to="/" class="btn btn-outline-primary me-2" @submit.prevent="onLogout()" >Выйти</RouterLink>
+      </div>
+      <div class="col-md-3 text-end" v-else="user" >
+        <RouterLink to="/login" class="btn btn-outline-primary me-2">Войти</RouterLink>
+        <RouterLink to="/register" class="btn btn-primary">Регистрация</RouterLink>
       </div>
     </header>
     <RouterView />

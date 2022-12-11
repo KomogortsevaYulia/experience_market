@@ -8,9 +8,6 @@ function onMounted() {
   Carousel("#carouselImage")
 }
 
-const show = ref(true);
-const showCreate = ref(false);
-const layout = ref(true);
 const data = ref()
 onBeforeMount(async () => {
   fetchProjects()
@@ -23,56 +20,51 @@ async function fetchProjects() {
 
 <template>
   <div class="projects">
+
     <div id="myCarousel" class="carousel slide " data-bs-ride="carousel">
       <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"
+          style="background-color:black"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""
+          style="background-color:black"></button>
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="active"
-          aria-current="true"></button>
+          style="background-color:black" aria-current="true"></button>
       </div>
       <div class="carousel-inner">
-        <div class="carousel-item">
-          <!-- <img
-            src="https://avatars.mds.yandex.net/i?id=78fdc9be1a46b5fa0fc0b0b53d5e3d990318de50-5236398-images-thumbs&n=13"
-            class="d-block w-30 justify-content-end" alt="..."> -->
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="#777"></rect>
-          </svg>
 
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>Example headline.</h1>
-              <p>Some representative placeholder content for the first slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#"> Зарегестрироваться сейчас</a></p>
+        <div class="carousel-item">
+          <div class="row m-3 justify-content-around ">
+            <div class="col-6">
+              <img src="https://synergy.ru/assets/upload/news/academy/127.2.jpg" class="d-block w-50 " alt="...">
+            </div>
+            <div class="col-auto align-self-center">
+              <div class="row mb-3">Скорее участвуй в проектах!</div>
+              <div class="row"><a class="btn btn-lg btn-primary" href="/register"> Зарегистрироваться</a></div>
             </div>
           </div>
         </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="#777"></rect>
-          </svg>
 
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Some representative placeholder content for the second slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Создать проект</a></p>
-            </div>
-          </div>
-        </div>
         <div class="carousel-item active">
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="#777"></rect>
-          </svg>
-
-          <div class="container">
-            <div class="carousel-caption text-end">
-              <h1>One more for good measure.</h1>
-              <p>Some representative placeholder content for the third slide of this carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Рулетка проектов</a></p>
+          <div class="row m-3 justify-content-around ">
+            <div class="col-6">
+              <img src="https://techcrunch.com/wp-content/uploads/2021/05/GettyImages-1091738564.jpg"
+                class="d-block w-50 " alt="...">
+            </div>
+            <div class="col-auto align-self-center">
+              <div class="row mb-3">Создай свой проект и набери команду!</div>
+              <div class="row"><a class="btn btn-lg btn-primary" href="/projects/create"> Создать проект</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row m-3 justify-content-around ">
+            <div class="col-6">
+              <img src="https://i.pinimg.com/736x/e2/50/d8/e250d879cd86448aa0f26fcb47446b7a.jpg" class="d-block w-50 "
+                alt="...">
+            </div>
+            <div class="col-auto align-self-center">
+              <div class="row mb-3">Выбери свой проект с помощью рулетки!</div>
+              <div class="row"><a class="btn btn-lg btn-primary" href="#"> Рулетка проектов</a></div>
             </div>
           </div>
         </div>
@@ -87,8 +79,28 @@ async function fetchProjects() {
       </button>
     </div>
     <div class="row mt-3 ms-1">
-      <div class="col-3 border g-0 rounded" width="100%" height="200">
-        Фильтры
+      <div class="col-2 border g-0 rounded p-3">
+        <h3 class="mb-3">Фильтры</h3>
+        <h4 class="mt-3">Тип проекта</h4>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Учебный
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+          <label class="form-check-label" for="flexCheckChecked">
+            Уникальный
+          </label>
+        </div>
+        <h4 class="mt-3">Тэги</h4>
+        <div class="row">
+          <span class="badge rounded-pill text-bg-primary mb-1">Веб-разработка</span>
+          <span class="badge rounded-pill text-bg-secondary mb-1">AI & ML</span>
+          <span class="badge rounded-pill text-bg-success mb-1">Инфобез</span>
+          <span class="badge rounded-pill text-bg-info mb-1">Дизайн</span>
+        </div>
       </div>
       <div class="col-9">
         <input class="form-control  mb-3" type="text" placeholder="Поиск" aria-label="Поиск">
@@ -108,7 +120,7 @@ async function fetchProjects() {
             </div>
             <div class="col-md-8 ">
               <div class="card-body">
-                <router-link :to="'/projects/'+project.id">
+                <router-link :to="'/projects/' + project.id">
                   <h5 class="card-title">{{ project.title }}</h5>
                 </router-link>
 

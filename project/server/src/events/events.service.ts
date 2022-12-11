@@ -18,7 +18,11 @@ export class EventsService {
   }
  
   async findAll(): Promise<Event[]> {
-    return this.eventRepository.createQueryBuilder("events").where("events.type = :type", { type: "event" }).getMany();
+    return this.eventRepository
+      .createQueryBuilder("events")
+      .where("events.type = :type", { type: "event" })
+      .andWhere("events.status = :status", { status: "created" })
+      .getMany();
   }
   findOne(id: number) {
     return `This action returns a #${id} event`;

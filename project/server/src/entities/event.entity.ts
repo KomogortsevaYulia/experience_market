@@ -34,6 +34,13 @@ export class Event {
     })
     type_project: string
 
+    @Column({
+        type: "enum",
+        enum: ["created", "not viewed","not created"],
+        default: "not viewed",
+    })
+    status: string
+
     @Column("simple-array")
     images: string[]
 

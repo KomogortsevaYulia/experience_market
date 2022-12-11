@@ -9,6 +9,6 @@ export class Tag {
     @Column()
     title: string
 
-    @Column()
+    @Column({nullable: true})
     description: string
 }

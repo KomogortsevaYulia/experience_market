@@ -120,9 +120,7 @@ export class UsersService {
       id: user.id,
       username: user.username,
       email: user.email,
-      bio: user.bio,
-      token: this.generateJWT(user),
-      image: user.image
+      token: this.generateJWT(user)
     };
 
     return {user: userRO};

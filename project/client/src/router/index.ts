@@ -1,5 +1,5 @@
 
-import { useLoginStore } from '@/stores/loginStore';
+import { useUserStore } from '@/stores/userStore';
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -17,9 +17,20 @@ const router = createRouter({
       component: () => import('../views/ProjectsView.vue')
     },
     {
-      path: '/project/:id',
+      path: '/projects/create',
+      name: 'createProject',
+      component: () => import('../views/CreateProjectView.vue')
+    },
+    {
+      path: '/projects/:id',
       name: 'project',
       component: () => import('../views/ProjectView.vue')
+    },
+    ,
+    {
+      path: '/admin/requestCreateProject',
+      name: 'requestCreateProject',
+      component: () => import('../views/RequestCreateProjectView.vue')
     },
     {
       path: '/hackathons',

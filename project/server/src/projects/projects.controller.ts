@@ -7,6 +7,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  //для создания проекта от челов обычных
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.create(createProjectDto);
@@ -17,11 +18,17 @@ export class ProjectsController {
     return this.projectsService.findAll();
   }
 
+  @Get('requestCreateProject')
+  findRequestCreateProject() {
+    return this.projectsService.findRequestCreateProject();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.projectsService.findOne(+id);
   }
 
+  //для изменения тстауса
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);

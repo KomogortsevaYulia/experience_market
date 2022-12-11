@@ -18,7 +18,19 @@ export class ProjectsService {
   }
 
   async findAll(): Promise<Event[]> {
-    return this.projectsRepository.createQueryBuilder("events").where("events.type = :type", { type: "project" }).getMany();
+    return this.projectsRepository
+      .createQueryBuilder("events")
+      .where("events.type = :type", { type: "project" })
+      .andWhere("events.status = :status", { status: "created" })
+      .getMany();
+  }
+
+  async findRequestCreateProject(): Promise<Event[]> {
+    return this.projectsRepository
+      .createQueryBuilder("events")
+      .where("events.type = :type", { type: "project" })
+      // .andWhere("events.status = :status", { status: "created" })
+      .getMany();
   }
 
   findOne(id: number) {

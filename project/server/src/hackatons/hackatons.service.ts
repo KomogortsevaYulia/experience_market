@@ -16,7 +16,11 @@ export class HackatonsService {
   }
 
   async findAll(): Promise<Event[]> {
-    return this.hackatonRepository.createQueryBuilder("events").where("events.type = :type", { type: "hackaton" }).getMany();
+    return this.hackatonRepository
+      .createQueryBuilder("events")
+      .where("events.type = :type", { type: "hackaton" })
+      .andWhere("events.status = :status", { status: "created" })
+      .getMany();
   }
 
   findOne(id: number) {
