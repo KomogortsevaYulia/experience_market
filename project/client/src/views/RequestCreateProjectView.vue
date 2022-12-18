@@ -7,18 +7,20 @@ import router from "@/router";
 const show = ref(true);
 const showCreate = ref(false);
 const layout = ref(true);
-const data = ref()
+const data = ref<Array<any>>([])
+const projectStore = useProjectStore();
+
 onBeforeMount(async () => {
   fetchRequestCreateProject()
 })
 async function fetchRequestCreateProject() {
-  data.value = await useProjectStore().fetchRequestCreateProject()
+  data.value = await projectStore.fetchRequestCreateProject()
 }
 
 async function onLogout(id:number,status:string) {
-  await useProjectStore().updateProject(id,status);
+  await projectStore.updateProject(id,status);
   fetchRequestCreateProject();
-  router.push({ path: `/admin/requestCreateProject` });
+  // router.push({ path: `/admin/requestCreateProject` });
 }
 
 </script>
