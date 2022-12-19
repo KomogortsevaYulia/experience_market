@@ -4,11 +4,9 @@ import { ref } from 'vue';
 
 
 export const useUserStore = defineStore("userStore", () => {
-
-    const permissions = ref(localStorage.getItem('permissions'));
     const id = ref(null);
+    const permissions = ref(localStorage.getItem('permissions'));
     const username = ref(localStorage.getItem('username'));
-    const token = ref(localStorage.getItem('token'));
 
     async function login(_email: any, _password: any) {
         let u = await axios.post("/api/users/login", {
@@ -17,14 +15,7 @@ export const useUserStore = defineStore("userStore", () => {
                 email: _email
             }
         })
-
-        username.value = u.data.user.username
-        id.value = u.data.user.id
-        permissions.value = u.data.user.permission
-        token.value=u.data.user.token
-        localStorage.setItem('username', username.value!)
-        localStorage.setItem('permissions', permissions.value!);
-        localStorage.setItem('token', token.value!)
+        await getInfoUser();
 
         return username.value;
     }
@@ -37,25 +28,30 @@ export const useUserStore = defineStore("userStore", () => {
                 email: _email
             }
         })
-        id.value = u.data.user.id
-        username.value = u.data.user.username
-        permissions.value = u.data.user.permission
-        token.value=u.data.user.token
-
-        localStorage.setItem('username', username.value!)
-        localStorage.setItem('permissions', permissions.value!);
-        localStorage.setItem('token', token.value!)
+        await getInfoUser();
 
         return username.value;
     }
 
     async function logout() {
-        token.value=null
-        id.value = null
-        username.value = null
-        localStorage.removeItem('username')
-        localStorage.removeItem('permissions')
-        localStorage.removeItem('token')
+        await axios.post("/api/users/logout")
+        await getInfoUser();
+    }
+
+    async function getInfoUser() {
+        let user = await axios.get("/api/users/user")
+        console.log(user)
+        if (user.data.logged) {
+
+            id.value = user.data.id
+            username.value = user.data.username
+            permissions.value = user.data.permission
+        } else {
+            permissions.value = null;
+            username.value = null;
+        }
+        localStorage.setItem('username', username.value!)
+        localStorage.setItem('permissions', permissions.value!);
         return username.value;
     }
 
@@ -63,7 +59,6 @@ export const useUserStore = defineStore("userStore", () => {
         username,
         permissions,
         id,
-        token,
         register,
         login,
         logout

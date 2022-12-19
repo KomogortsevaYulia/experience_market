@@ -3,20 +3,15 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { AuthMiddleware } from './auth.middleware';
+import { LocalAuthGuard } from './local-auth.guard';
+
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  providers: [UsersService],
-  controllers: [
+  providers: [UsersService, LocalAuthGuard],
+  controllers: [ 
     UsersController
   ],
   exports: [UsersService]
 })
-export class UserModule implements NestModule {
-  public configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes({ path: 'user', method: RequestMethod.GET }, { path: 'user', method: RequestMethod.PUT });
-  }
-}
+export class UserModule {}

@@ -14,7 +14,7 @@ const {
 
 async function onLogout() {
   await userStore.logout();
-  router.push(route.fullPath);
+  router.push("/")
 }
 </script>
 
@@ -45,7 +45,7 @@ async function onLogout() {
 
       <div class="col-md-3 text-end" v-if="username" >
         <RouterLink :to=" '/profile/'+username" class="me-2">{{username}}</RouterLink>
-        <a href="/" class="btn btn-outline-primary me-2" @click="onLogout()" >Выйти</a>
+        <a href="#" class="btn btn-outline-primary me-2" @click="onLogout()" >Выйти</a>
       </div>
       <div class="col-md-3 text-end" v-else="user" >
         <RouterLink to="/login" class="btn btn-outline-primary me-2">Войти</RouterLink>
