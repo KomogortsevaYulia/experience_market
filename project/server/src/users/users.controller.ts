@@ -22,6 +22,7 @@ export class UsersController {
   async findOne(@Request() req): Promise<any> {
     const user=await this.usersService.findById(req.session.user_id)
     const { password, ...result } = user;
+    
     return result;
   }
 

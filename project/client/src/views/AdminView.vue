@@ -1,4 +1,5 @@
-<script setup lang="ts">import { useProjectStore } from '@/stores/projectStore';
+<script setup lang="ts">
+import { useProjectStore } from '@/stores/projectStore';
 import { ref, onBeforeMount } from 'vue';
 
 

@@ -28,8 +28,10 @@ async function fetchProject() {
   </div>
   <div class="row mt-3">
     <div class="col"> 
-      <div class="row p-3">Команды и их фильтры</div>
-      
+      <div class="row p-3">
+        <p>Команды и их фильтры</p>
+        <button type="button" class="btn btn-outline-success">Создать команду</button>
+      </div>
       <div class="row border g-0 rounded p-3 m-0">Команда</div>
     </div>
     <div class="col-3 border g-0 rounded p-3"> 

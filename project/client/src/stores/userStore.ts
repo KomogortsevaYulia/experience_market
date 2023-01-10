@@ -9,7 +9,7 @@ export const useUserStore = defineStore("userStore", () => {
     const username = ref(localStorage.getItem('username'));
 
     async function login(_email: any, _password: any) {
-        let u = await axios.post("/api/users/login", {
+        await axios.post("/api/users/login", {
             "user": {
                 password: _password,
                 email: _email
@@ -21,7 +21,7 @@ export const useUserStore = defineStore("userStore", () => {
     }
 
     async function register(_email: any, _password: any, _username: any) {
-        let u = await axios.post("/api/users", {
+        await axios.post("/api/users", {
             "user": {
                 username: _username,
                 password: _password,
@@ -34,31 +34,47 @@ export const useUserStore = defineStore("userStore", () => {
     }
 
     async function logout() {
-        await axios.post("/api/users/logout")
-        await getInfoUser();
+        try {
+            await axios.post("/api/users/logout")
+            await getInfoUser();
+        } catch (error) {
+            localStorage.clear;
+            console.log(localStorage.getItem('username'))
+        }
+
     }
 
     async function getInfoUser() {
-        let user = await axios.get("/api/users/user")
-        console.log(user)
-        if (user.data.logged) {
+        try {
+            let user = await axios.get("/api/users/user")
+            console.log(user)
 
-            id.value = user.data.id
-            username.value = user.data.username
-            permissions.value = user.data.permission
-        } else {
+            if (user.data) {
+                id.value = user.data.id
+                username.value = user.data.username
+                permissions.value = user.data.permission
+            } else {
+                permissions.value = null;
+                username.value = null;
+                localStorage.clear;
+            }
+            localStorage.setItem('username', username.value!)
+            localStorage.setItem('permissions', permissions.value!);
+            return user;
+        } catch (error) {
+            localStorage.clear;
             permissions.value = null;
             username.value = null;
+            return username.value;
         }
-        localStorage.setItem('username', username.value!)
-        localStorage.setItem('permissions', permissions.value!);
-        return username.value;
+
     }
 
     return {
         username,
         permissions,
         id,
+        getInfoUser,
         register,
         login,
         logout

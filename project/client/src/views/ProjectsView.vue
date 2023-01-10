@@ -15,7 +15,7 @@ function onMounted() {
 }
 
 const {
-  token
+  username
 } = storeToRefs(userStore);
 
 const data = ref()
@@ -32,7 +32,7 @@ async function fetchProjects() {
 <template>
   <div class="projects">
 
-    <div id="myCarousel" class="carousel slide " data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide" style="height:250px" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"
           style="background-color:black"></button>
@@ -42,13 +42,12 @@ async function fetchProjects() {
           style="background-color:black" aria-current="true"></button>
       </div>
       <div class="carousel-inner">
-
         <div class="carousel-item">
           <div class="row m-3 justify-content-around ">
-            <div class="col-6">
-              <img src="https://synergy.ru/assets/upload/news/academy/127.2.jpg" class="d-block w-50 " alt="...">
+            <div class="col-5">
+              <img src="../images/login.png" style="height: 230px;" class="d-block" alt="...">
             </div>
-            <div class="col-auto align-self-center">
+            <div class=" col-auto align-self-center">
               <div class="row mb-3">Скорее участвуй в проектах!</div>
               <div class="row"><a class="btn btn-lg btn-primary" href="/register"> Зарегистрироваться</a></div>
             </div>
@@ -58,14 +57,14 @@ async function fetchProjects() {
         <div class="carousel-item active">
           <div class="row m-3 justify-content-around ">
             <div class="col-6">
-              <img src="https://techcrunch.com/wp-content/uploads/2021/05/GettyImages-1091738564.jpg"
-                class="d-block w-50 " alt="...">
+              <img src="../images/createProject.png"
+                class="d-block" style="height: 230px;" alt="...">
             </div>
             <div class="col-auto align-self-center">
               <div class="row mb-3">Создай свой проект и набери команду!</div>
               <div class="row">
-                <a class="btn btn-lg btn-primary" v-if="token" href="/projects/create"> Создать проект</a>
-                <a class="btn btn-lg btn-primary" v-else="token" href="/login" > Создать проект</a>
+                <a class="btn btn-lg btn-primary" v-if="username" href="/projects/create"> Создать проект</a>
+                <a class="btn btn-lg btn-primary" v-else="username" href="/login"> Создать проект</a>
               </div>
             </div>
           </div>
@@ -92,28 +91,30 @@ async function fetchProjects() {
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <div class="row mt-3 ms-1">
-      <div class="col-2 border g-0 rounded p-3">
-        <h3 class="mb-3">Фильтры</h3>
-        <h4 class="mt-3">Тип проекта</h4>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-          <label class="form-check-label" for="flexCheckDefault">
-            Учебный
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-          <label class="form-check-label" for="flexCheckChecked">
-            Уникальный
-          </label>
-        </div>
-        <h4 class="mt-3">Тэги</h4>
-        <div class="row">
-          <span class="badge rounded-pill text-bg-primary mb-1">Веб-разработка</span>
-          <span class="badge rounded-pill text-bg-secondary mb-1">AI & ML</span>
-          <span class="badge rounded-pill text-bg-success mb-1">Инфобез</span>
-          <span class="badge rounded-pill text-bg-info mb-1">Дизайн</span>
+    <div class="row  mt-3 ms-1 align-self-start">
+      <div class="col-2">
+        <div class="row border g-0 rounded p-3">
+          <h3 class="mb-3">Фильтры</h3>
+          <h4 class="mt-3">Тип проекта</h4>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Учебный
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+              Уникальный
+            </label>
+          </div>
+          <h4 class="mt-3">Тэги</h4>
+          <div class="row">
+            <span class="badge rounded-pill text-bg-primary mb-1">Веб-разработка</span>
+            <span class="badge rounded-pill text-bg-secondary mb-1">AI & ML</span>
+            <span class="badge rounded-pill text-bg-success mb-1">Инфобез</span>
+            <span class="badge rounded-pill text-bg-info mb-1">Дизайн</span>
+          </div>
         </div>
       </div>
       <div class="col-9">
@@ -139,7 +140,7 @@ async function fetchProjects() {
                 </router-link>
 
                 <p class="card-text">{{ project.descriptions }}</p>
-                <p class="card-text">{{ project.type_project=="unique"?"Уникальный" :"Учебный" }}</p>
+                <p class="card-text">{{ project.type_project == "unique" ? "Уникальный" : "Учебный" }}</p>
                 <div class="row justify-content-between">
                   <div class="col">
                     <span class="badge rounded-pill text-bg-primary me-1">Веб-разработка</span>
