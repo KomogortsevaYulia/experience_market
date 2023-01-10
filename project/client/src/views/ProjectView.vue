@@ -16,7 +16,7 @@ async function fetchProject() {
 
 
 <template>
-  <h1> Проект</h1>
+  <h1>Проект</h1>
   <div class="row mt-3 border g-0 rounded p-3"> 
     <div class="row">{{project.title}} + {{project.id}}</div>
     <div class="row">{{project.descriptions}}</div>

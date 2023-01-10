@@ -2,6 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
 import { Event } from 'src/entities/event.entity';
+import { ResultEvent } from 'src/entities/result_events.entity';
+import { Team } from 'src/entities/teams.entity';
+import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -12,24 +15,25 @@ export class ProjectsService {
   constructor(
     @InjectRepository(Event)  // user //,
     private readonly projectsRepository: Repository<Event>,
+    private readonly teamsRepository: Repository<Team>,
   ) { }
 
   async create(createProjectDto: CreateProjectDto) {
     // create new user
     let newProject = new Event();
     newProject.descriptions = createProjectDto.description;
-    newProject.type ="project";
-    newProject.status ="not viewed";
-    newProject.date_start =new Date;
+    newProject.type = "project";
+    newProject.status = "not viewed";
+    newProject.date_start = new Date;
     newProject.title = createProjectDto.title;
     newProject.images = [createProjectDto.image];
     newProject.type_project = createProjectDto.type_project;
-    newProject.creator=createProjectDto.creator_id
+    newProject.creator = createProjectDto.creator_id
 
     const errors = await validate(newProject);
     if (errors.length > 0) {
-      const _errors = {username: 'ProjectInput is not valid.'};
-      throw new HttpException({message: 'Input data validation failed', _errors}, HttpStatus.BAD_REQUEST);
+      const _errors = { username: 'ProjectInput is not valid.' };
+      throw new HttpException({ message: 'Input data validation failed', _errors }, HttpStatus.BAD_REQUEST);
     } else {
       const savedProject = await this.projectsRepository.save(newProject);
       return this.buildUserRO(savedProject);
@@ -43,6 +47,15 @@ export class ProjectsService {
       .where("events.type = :type", { type: "project" })
       .andWhere("events.status = :status", { status: "created" })
       .getMany();
+  }
+
+  async findTeams(id: number): Promise<Team[]> {
+    const teams = this.teamsRepository
+      .createQueryBuilder("teams")
+      .leftJoinAndSelect(Team, "results_event", "results_event.team_id = teams.id")
+      .leftJoinAndSelect(ResultEvent, "events", "events.id = results_event.event_id")
+      .getMany();
+    return teams
   }
 
   async findRequestCreateProject(): Promise<Event[]> {
@@ -65,7 +78,7 @@ export class ProjectsService {
   }
 
   async update(id: number, updateProjectDto: UpdateProjectDto): Promise<Event[]> {
-    
+
     this.projectsRepository.update(id, { status: updateProjectDto.status })
     return this.findRequestCreateProject();
   }
@@ -79,21 +92,21 @@ export class ProjectsService {
       id: project.id,
       title: project.title,
       type_project: project.type_project,
-      descriptions:project.descriptions,
-      images:project.images,
+      descriptions: project.descriptions,
+      images: project.images,
     };
 
-    return {project: projectRO};
+    return { project: projectRO };
   }
 
-  
+
 }
 export interface ProjectData {
-    username: string;
-    email: string;
-    token: string;
-  }
-  
-  export interface ProjectRO {
-    user: ProjectData;
-  }
+  username: string;
+  email: string;
+  token: string;
+}
+
+export interface ProjectRO {
+  user: ProjectData;
+}

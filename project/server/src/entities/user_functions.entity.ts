@@ -27,4 +27,14 @@ export class UserFunction {
 
     @Column({nullable:true})
     title: string
+
+    @Column({nullable:true})
+    linkInfoUser: string
+
+    @Column({
+        type: "enum",
+        enum: ["take", "not viewed","deny"],
+        default: "not viewed"
+    })
+    status: string
 }

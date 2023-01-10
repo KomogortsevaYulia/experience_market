@@ -17,20 +17,18 @@ async function fetchCountRequestCreateProject() {
     <div class="row mb-3">
         <div class="col-4 ">
             <div class="row mb-3 me-3">
-                <a class="" href="/admin/requestCreateProject">
+                <RouterLink  to="/admin/requestCreateProject">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-
                                 <div class="col-4 ms-4">
                                     <h2>{{countRequestCreateProject}}</h2>
                                 </div>
                                 <div class="col">поданных заявок на создание проекта</div>
-
                             </div>
                         </div>
                     </div>
-                </a>
+                </RouterLink>
             </div>
             <div class="row mb-3 me-3">
                 <div class="card">

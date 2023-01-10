@@ -57,8 +57,7 @@ async function fetchProjects() {
         <div class="carousel-item active">
           <div class="row m-3 justify-content-around ">
             <div class="col-6">
-              <img src="../images/createProject.png"
-                class="d-block" style="height: 230px;" alt="...">
+              <img src="../images/createProject.png" class="d-block" style="height: 230px;" alt="...">
             </div>
             <div class="col-auto align-self-center">
               <div class="row mb-3">Создай свой проект и набери команду!</div>
@@ -118,7 +117,9 @@ async function fetchProjects() {
         </div>
       </div>
       <div class="col-9">
-        <input class="form-control  mb-3" type="text" placeholder="Поиск" aria-label="Поиск">
+        <div>
+          <input class="form-control mb-3" placeholder="Поиск">
+        </div>
         <div class="card mb-3" v-for="project in data">
           <div class="row g-0">
             <div class="col-md-4 col-3">

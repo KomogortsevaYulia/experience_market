@@ -18,6 +18,11 @@ export class ProjectsController {
     return this.projectsService.findAll();
   }
 
+  @Get(':id/team')
+  findTeams(@Param('id') id: string) {
+    return this.projectsService.findTeams(+id);
+  }
+
   @Get('requestCreateProject')
   findRequestCreateProject() {
     return this.projectsService.findRequestCreateProject();
@@ -33,7 +38,7 @@ export class ProjectsController {
     return this.projectsService.findOne(+id);
   }
 
-  //для изменения тстауса
+  //для изменения статуса
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);
